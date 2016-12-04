@@ -12,5 +12,8 @@
 	<classpathentry kind="lib" path="xercesSamples.jar"/>
 	<classpathentry kind="lib" path="xml-apis.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="jackson-core-2.3.2.jar"/>
+	<classpathentry kind="lib" path="jackson-databind-2.3.2.jar"/>
+	<classpathentry kind="lib" path="jackson-annotations-2.3.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
