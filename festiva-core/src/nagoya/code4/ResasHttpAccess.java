@@ -60,10 +60,10 @@ import org.apache.http.util.EntityUtils;
  * 
  */
 public class ResasHttpAccess {
-	static final private String url = "https://opendata.resas-portal.go.jp/";
+	static final private String resasUrl = "https://opendata.resas-portal.go.jp/";
 	static final private String apiUrl = "api/v1-rc.1/tourism/foreigners/forTo";
 
-	static final private String gaikokujinnUrl = url + apiUrl;
+	static final private String gaikokujinnUrl = resasUrl + apiUrl;
 
 	static final private String year = "2016";
 	static final private String prefCode = "23";
@@ -72,7 +72,7 @@ public class ResasHttpAccess {
 	static final private int purpose = 1;
 
 	static final private String XAPIKEY = "X-API-KEY";
-	static final private String key = "f3Ye0EtzpJxuZVuEwemsOs0gZO3E4kJABrgRTW4O";
+	static final private String key = "5z6CSbhsntueQ3eZ1z23SmiXDtfAwurIya4J7W0W";
 	/**
 	 * response
 	 */
@@ -99,7 +99,7 @@ public class ResasHttpAccess {
 	 * @throws IOException
 	 * @throws ParseException
 	 */
-	static public String sendString(String sentence) throws ParseException,
+	static public String sendString(String apiUrl,String sentence) throws ParseException,
 			IOException {
 
 		// Use custom message parser / writer to customize the way HTTP
@@ -228,42 +228,8 @@ public class ResasHttpAccess {
 						Arrays.asList(AuthSchemes.NTLM, AuthSchemes.DIGEST))
 				.setProxyPreferredAuthSchemes(Arrays.asList(AuthSchemes.BASIC))
 				.build();
-		String url = gaikokujinnUrl;
-		StringBuffer sb = new StringBuffer();
-		sb.append(url);
-		sb.append("?");
-		@SuppressWarnings("deprecation")
-		String encodedTestString = URLEncoder.encode(sentence);
-
-		//
-		String param = String.format("year" + "=%s", year);
-
-		sb.append(param);
-		sb.append("&");
-		
-
-		//
-		param = String.format("prefCode" + "=%s", prefCode);
-
-		sb.append(param);
-
-		sb.append("&");
-		//
-		param = String.format("reginCode" + "=%s", reginCode);
-
-		sb.append(param);
-		sb.append("&");
-		
-		param = String.format("countryCode" + "=%s", countryCode);
-
-		sb.append(param);
-		sb.append("&");
-
-		//	static final private int purpose = 1;
-
-		param = String.format("purpose" + "=%s", purpose);
-
-		sb.append(param);
+		String url = resasUrl+apiUrl;
+		StringBuffer sb = addParameters(sentence, url);
 		
 		HttpGet httpget = new HttpGet(sb.toString());
 		httpget.setHeader(XAPIKEY, key);
@@ -326,6 +292,15 @@ public class ResasHttpAccess {
 			}
 		}
 
+	}
+
+	private static StringBuffer addParameters(String sentence, String url) {
+		StringBuffer sb = new StringBuffer();
+		sb.append(url);
+		sb.append("?");
+
+		sb.append(sentence);
+		return sb;
 	}
 
 }
