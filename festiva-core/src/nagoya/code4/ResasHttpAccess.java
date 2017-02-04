@@ -72,7 +72,7 @@ public class ResasHttpAccess {
 	static final private int purpose = 1;
 
 	static final private String XAPIKEY = "X-API-KEY";
-	static final private String key = "5z6CSbhsntueQ3eZ1z23SmiXDtfAwurIya4J7W0W";
+	static final private String key = "";
 	/**
 	 * response
 	 */
