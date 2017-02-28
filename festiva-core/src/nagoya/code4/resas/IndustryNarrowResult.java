@@ -1,6 +1,6 @@
 package nagoya.code4.resas;
 
-public class IndustryNarrowResult {
+public class IndustryNarrowResult  {
 	
 	private String siscCode;
 	
@@ -8,6 +8,9 @@ public class IndustryNarrowResult {
 	
 	private String siscName;
 
+	/* (non-Javadoc)
+	 * @see nagoya.code4.resas.IndustryNarrow#getSiscCode()
+	 */
 	public String getSiscCode() {
 		return siscCode;
 	}
@@ -16,6 +19,9 @@ public class IndustryNarrowResult {
 		this.siscCode = siscCode;
 	}
 
+	/* (non-Javadoc)
+	 * @see nagoya.code4.resas.IndustryNarrow#getSimcCode()
+	 */
 	public String getSimcCode() {
 		return simcCode;
 	}
@@ -24,6 +30,9 @@ public class IndustryNarrowResult {
 		this.simcCode = simcCode;
 	}
 
+	/* (non-Javadoc)
+	 * @see nagoya.code4.resas.IndustryNarrow#getSiscName()
+	 */
 	public String getSiscName() {
 		return siscName;
 	}
