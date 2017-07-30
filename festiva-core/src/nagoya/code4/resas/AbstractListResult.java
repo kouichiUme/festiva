@@ -2,12 +2,12 @@ package nagoya.code4.resas;
 
 import java.util.List;
 
-public class AbstractResult<T> {
+public class AbstractListResult<T> {
 
 	protected String message;
 	protected List<T> result;
 
-	public AbstractResult() {
+	public AbstractListResult() {
 		super();
 	}
 

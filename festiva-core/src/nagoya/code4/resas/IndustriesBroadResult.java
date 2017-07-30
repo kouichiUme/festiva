@@ -1,6 +1,6 @@
 package nagoya.code4.resas;
 
-public class IndustriesBroadResult extends AbstractResult<IndustryBroadResult> {
+public class IndustriesBroadResult extends AbstractListResult<IndustryBroadResult> {
 	
 	private String sicCode;
 	private String sicName;

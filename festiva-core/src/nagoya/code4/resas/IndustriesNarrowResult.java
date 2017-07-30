@@ -1,5 +1,5 @@
 package nagoya.code4.resas;
 
-public class IndustriesNarrowResult extends AbstractResult<IndustryNarrowResult> {
+public class IndustriesNarrowResult extends AbstractListResult<IndustryNarrowResult> {
 
 }

@@ -1,6 +1,6 @@
 package nagoya.code4.resas;
 
-public class TradeInfoItemTypesBroadResult extends AbstractResult<TradeInfoItemTypeBroadResult>
+public class TradeInfoItemTypesBroadResult extends AbstractListResult<TradeInfoItemTypeBroadResult>
 
 {
 
