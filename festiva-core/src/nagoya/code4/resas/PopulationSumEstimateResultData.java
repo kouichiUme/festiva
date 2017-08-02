@@ -1,6 +1,6 @@
 package nagoya.code4.resas;
 
-public class PopulationsumEstimateResultData {
+public class PopulationSumEstimateResultData {
 	
 	
 	private String year;

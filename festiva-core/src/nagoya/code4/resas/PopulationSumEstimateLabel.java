@@ -1,6 +1,6 @@
 package nagoya.code4.resas;
 
-public class PopulationsumEstimateLabel extends AbstractResultList<PopulationsumEstimateResultData> {
+public class PopulationSumEstimateLabel extends AbstractResultList<PopulationSumEstimateResultData> {
 	
 	private String label;
 
