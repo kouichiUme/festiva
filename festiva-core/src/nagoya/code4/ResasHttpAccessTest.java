@@ -17,6 +17,10 @@ import nagoya.code4.resas.CitiesResult;
 import nagoya.code4.resas.CityResult;
 import nagoya.code4.resas.CustomResult;
 import nagoya.code4.resas.CustomsResult;
+import nagoya.code4.resas.EmployEducationAcademicToTransitionChange;
+import nagoya.code4.resas.EmployEducationLocalAcademicToTransitionData;
+import nagoya.code4.resas.EmployEducationLocalAcademicToTransitionResult;
+import nagoya.code4.resas.EmployEducationToTransitionResultChanges;
 import nagoya.code4.resas.IndustriesBroadResult;
 import nagoya.code4.resas.IndustriesMiddleResult;
 import nagoya.code4.resas.IndustriesNarrowResult;
@@ -41,6 +45,13 @@ import nagoya.code4.resas.PopulationCompositionPyramidData;
 import nagoya.code4.resas.PopulationCompositionPyramidResult;
 import nagoya.code4.resas.PopulationCompositionPyramidSide;
 import nagoya.code4.resas.PopulationCompositionPyramidSummary;
+import nagoya.code4.resas.PopulationFutureCities;
+import nagoya.code4.resas.PopulationFutureCitiesResult;
+import nagoya.code4.resas.PopulationFutureCitiesResultCity;
+import nagoya.code4.resas.PopulationSumEstimateBoundary;
+import nagoya.code4.resas.PopulationSumEstimateLabel;
+import nagoya.code4.resas.PopulationSumEstimateResult;
+import nagoya.code4.resas.PopulationSumEstimateResultData;
 import nagoya.code4.resas.PopulationSumPerYearBar;
 import nagoya.code4.resas.PopulationSumPerYearLine;
 import nagoya.code4.resas.PopulationSumPerYearList;
@@ -62,6 +73,29 @@ import nagoya.code4.resas.TradeInfoItemTypeNarrowResult;
 import nagoya.code4.resas.TradeInfoItemTypesBroadResult;
 import nagoya.code4.resas.TradeInfoItemTypesMiddleResult;
 import nagoya.code4.resas.TradeInfoItemTypesNarrowResult;
+import nagoya.code4.resas.industry.IndustryManufactureEstablishResultData;
+import nagoya.code4.resas.industry.IndustryManufactureEstablishment;
+import nagoya.code4.resas.industry.IndustryManufactureEstablishmentLabel;
+import nagoya.code4.resas.industry.IndustryManufactureEstablishmentsRequest;
+import nagoya.code4.resas.industry.IndustryManufactureEstablishmentsResult;
+import nagoya.code4.resas.industry.IndustryPowerForArea;
+import nagoya.code4.resas.industry.IndustryPowerForAreaRequest;
+import nagoya.code4.resas.industry.IndustryPowerForAreaResult;
+import nagoya.code4.resas.industry.IndustryPowerForAreaResultCityData;
+import nagoya.code4.resas.industry.IndustryPowerForAreaResultPrefectureData;
+import nagoya.code4.resas.industry.IndustryPowerForIndustry;
+import nagoya.code4.resas.industry.IndustryPowerForIndustryRequest;
+import nagoya.code4.resas.industry.IndustryPowerForIndustryResult;
+import nagoya.code4.resas.industry.IndustryPowerForIndustryResultData;
+import nagoya.code4.resas.municipality.MunicipalityCompanyPerYear;
+import nagoya.code4.resas.municipality.MunicipalityCompanyPerYearRequest;
+import nagoya.code4.resas.municipality.MunicipalityCompanyPerYearResult;
+import nagoya.code4.resas.municipality.MunicipalityCompanyPerYearResultData;
+import nagoya.code4.resas.population.PopulationFutureMeshChartRequest;
+import nagoya.code4.resas.population.PopulationMeshChartRequest;
+import nagoya.code4.resas.population.PopulationMeshChartResult;
+import nagoya.code4.resas.population.PopulationMeshChartResultData;
+import nagoya.code4.resas.population.PopulationMeshCharts;
 
 public class ResasHttpAccessTest {
 
@@ -704,33 +738,377 @@ public class ResasHttpAccessTest {
 			System.out.println("value" + data.getValue());
 
 		}
-		
-		
-		PopulationSumPerYearBar bar = a.getBar();
-		
-		
-		for(PopulationSumPerYearList data: bar.getData()){
-			
 
-			
-			
+		PopulationSumPerYearBar bar = a.getBar();
+
+		for (PopulationSumPerYearList data : bar.getData()) {
+
 			System.out.println("year" + data.getYear());
 
 			System.out.println("sum" + data.getSum());
-			
-			for(PopulationSumPerYearResultData d : data.getData()){
-				
+
+			for (PopulationSumPerYearResultData d : data.getData()) {
+
 				System.out.println("label : " + d.getLabel());
 				System.out.println("value : " + d.getValue());
-				
-				
-				
+
 			}
-			
+
 		}
-		
-		
 
 	}
 
+	@Test
+	public void testEducationResult() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("prefecture_cd");
+		paramNames.add("displayMethod");
+		paramNames.add("matter");
+		paramNames.add("classification");
+		paramNames.add("displayType");
+		paramNames.add("gender");
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("13");
+		paramValues.add("0");
+		paramValues.add("1");
+		paramValues.add("0");
+		paramValues.add("00");
+		paramValues.add("0");
+
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1/employEducation/localjobAcademic/toTransition",
+				params.toString());
+
+		EmployEducationLocalAcademicToTransitionResult resultData = om.readValue(result,
+				EmployEducationLocalAcademicToTransitionResult.class);
+
+		EmployEducationToTransitionResultChanges a = resultData.getResult();
+
+		for (EmployEducationAcademicToTransitionChange data : a.getData()) {
+
+			System.out.println("label" + data.getLabel());
+
+			System.out.println("preCode" + data.getPrefCode());
+
+			for (EmployEducationLocalAcademicToTransitionData tran : data.getData()) {
+
+				System.out.println("year" + tran.getYear());
+
+				System.out.println("value" + tran.getValue());
+
+			}
+		}
+
+	}
+
+	@Test
+	public void testPopulationEstimate() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("prefCode");
+		paramNames.add("cityCode");
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("11");
+		paramValues.add("11362");
+
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1/population/sum/estimate", params.toString());
+
+		PopulationSumEstimateResult resultData = om.readValue(result, PopulationSumEstimateResult.class);
+
+		PopulationSumEstimateBoundary a = resultData.getResult();
+
+		for (PopulationSumEstimateLabel data : a.getData()) {
+
+			System.out.println("label" + data.getLabel());
+
+			for (PopulationSumEstimateResultData tran : data.getData()) {
+
+				System.out.println("year" + tran.getYear());
+
+				System.out.println("value" + tran.getValue());
+
+			}
+		}
+
+	}
+
+	@Test
+	public void testPopulationFutureCities() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("year");
+		paramNames.add("prefCode");
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("2040");
+		paramValues.add("1");
+
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1/population/future/cities", params.toString());
+
+		PopulationFutureCitiesResult resultData = om.readValue(result, PopulationFutureCitiesResult.class);
+
+		PopulationFutureCities a = resultData.getResult();
+
+		for (PopulationFutureCitiesResultCity data : a.getData()) {
+
+			System.out.println("citycode" + data.getCityCode());
+
+			System.out.println("cityname" + data.getCityName());
+
+			System.out.println("value" + data.getValue());
+
+			System.out.println("RATIO" + data.getRatio());
+
+		}
+	}
+
+	@Test
+	public void testPopulationMeshChart() throws ParseException, IOException {
+		requestPopulationMesh(PopulationMeshChartRequest.url);
+	}
+
+	private void requestPopulationMesh(String url) throws IOException, JsonParseException, JsonMappingException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("year");
+		paramNames.add("prefecture_cd");
+		paramNames.add("city_cd");
+		paramNames.add("matter");
+		paramNames.add("displayMethod");
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("2010");
+		paramValues.add("13");
+		paramValues.add("13101");
+		paramValues.add("0");
+		paramValues.add("0");
+
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + url, params.toString());
+
+		PopulationMeshChartResult resultData = om.readValue(result, PopulationMeshChartResult.class);
+
+		PopulationMeshCharts a = resultData.getResult();
+
+		for (PopulationMeshChartResultData data : a.getData()) {
+
+			System.out.println("citycode" + data.getClassification_cd());
+
+			System.out.println("cityname" + data.getClassification_name());
+
+			System.out.println("value1" + data.getValue1());
+			System.out.println("value2" + data.getValue2());
+
+			System.out.println("value3" + data.getValue3());
+
+		}
+	}
+
+	@Test
+	public void testPopulationFutureMeshChart() throws ParseException, IOException {
+		requestPopulationMesh(PopulationFutureMeshChartRequest.url);
+	}
+
+	@Test
+	public void testIndustryPowerForIndustry() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("year");
+		paramNames.add("prefCode");
+		paramNames.add("cityCode");
+		paramNames.add("sicCode");
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("2012");
+		paramValues.add("11");
+		paramValues.add("11362");
+		paramValues.add("-");
+
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + IndustryPowerForIndustryRequest.url, params.toString());
+
+		IndustryPowerForIndustryResult resultData = om.readValue(result, IndustryPowerForIndustryResult.class);
+
+		IndustryPowerForIndustry a = resultData.getResult();
+
+		for (IndustryPowerForIndustryResultData data : a.getData()) {
+
+			System.out.println("employee" + data.getEmployee());
+
+			System.out.println("labor" + data.getLabor());
+
+			System.out.println("simCode" + data.getSimcCode());
+
+			System.out.println("simcName" + data.getSimcName());
+
+			System.out.println("value" + data.getValue());
+
+		}
+	}
+
+	@Test
+	public void testIndustryPowerForArea() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("year");
+		paramNames.add("prefCode");
+		paramNames.add("areaType");
+		paramNames.add("dispType");
+		paramNames.add("sicCode");
+		paramNames.add("simcCode");
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("2012");
+		paramValues.add("11");
+		paramValues.add("1");
+		paramValues.add("1");
+		paramValues.add("E");
+		paramValues.add("20");
+
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + IndustryPowerForAreaRequest.url, params.toString());
+
+		IndustryPowerForAreaResult resultData = om.readValue(result, IndustryPowerForAreaResult.class);
+
+		IndustryPowerForArea a = resultData.getResult();
+
+		for (IndustryPowerForAreaResultPrefectureData data : a.getPrefectures()) {
+
+			System.out.println("employee" + data.getPrefCode());
+
+			System.out.println("labor" + data.getPrefName());
+
+			System.out.println("simCode" + data.getValue());
+
+		}
+
+		for (IndustryPowerForAreaResultCityData data : a.getCities()) {
+
+			System.out.println("employee" + data.getPrefCode());
+
+			System.out.println("labor" + data.getPrefName());
+
+			System.out.println("simCode" + data.getCityCode());
+
+			System.out.println("simCode" + data.getCityName());
+
+			System.out.println("simCode" + data.getValue());
+
+		}
+	}
+
+	@Test
+	public void testIndustryPowerForEstablishment() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("prefCode");
+		paramNames.add("sicCode");
+		paramNames.add("simcCode");
+		paramNames.add("addArea");
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("11");
+		paramValues.add("E");
+		paramValues.add("20");
+		paramValues.add("");
+
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + IndustryManufactureEstablishmentsRequest.url,
+				params.toString());
+
+		IndustryManufactureEstablishmentsResult resultData = om.readValue(result,
+				IndustryManufactureEstablishmentsResult.class);
+
+		IndustryManufactureEstablishment a = resultData.getResult();
+
+		for (IndustryManufactureEstablishmentLabel data : a.getEstablishments()) {
+
+			System.out.println("employee" + data.getLabel());
+
+			for (IndustryManufactureEstablishResultData d : data.getData()) {
+
+				System.out.println("employee" + d.getEmployee());
+
+				System.out.println("labor" + d.getLabor());
+
+				System.out.println("value" + d.getValue());
+
+				System.out.println("year" + d.getYear());
+			}
+
+		}
+	}
+
+	@Test
+	public void testMunicipalityCompanyPerYear() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("cityCode");
+		paramNames.add("simcCode");
+		paramNames.add("prefCode");
+		paramNames.add("sicCode");
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("11362");
+		paramValues.add("20");
+		paramValues.add("11");
+		paramValues.add("E");
+
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + MunicipalityCompanyPerYearRequest.url, params.toString());
+
+		MunicipalityCompanyPerYearResult resultData = om.readValue(result, MunicipalityCompanyPerYearResult.class);
+
+		MunicipalityCompanyPerYear a = resultData.getResult();
+
+		System.out.println("prefCode" + a.getPrefCode());
+
+		System.out.println("prefName" + a.getPrefName());
+		System.out.println("cityName" + a.getCityName());
+		System.out.println("sicName" + a.getSicName());
+		System.out.println("sicCode" + a.getSicCode());
+		System.out.println("simcName" + a.getSimcName());
+		System.out.println("simcCode" + a.getSimcCode());
+
+		
+		
+		for (MunicipalityCompanyPerYearResultData data : a.getData()) {
+
+			System.out.println("value" + data.getValue());
+			
+			System.out.println("year : " + data.getYear());
+
+
+
+		}
+	}
 }
