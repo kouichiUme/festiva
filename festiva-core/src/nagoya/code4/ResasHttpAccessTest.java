@@ -87,10 +87,19 @@ import nagoya.code4.resas.industry.IndustryPowerForIndustry;
 import nagoya.code4.resas.industry.IndustryPowerForIndustryRequest;
 import nagoya.code4.resas.industry.IndustryPowerForIndustryResult;
 import nagoya.code4.resas.industry.IndustryPowerForIndustryResultData;
-import nagoya.code4.resas.municipality.MunicipalityCompanyPerYear;
+import nagoya.code4.resas.municipality.MunicipalityAbstractPerYearResult;
 import nagoya.code4.resas.municipality.MunicipalityCompanyPerYearRequest;
 import nagoya.code4.resas.municipality.MunicipalityCompanyPerYearResult;
-import nagoya.code4.resas.municipality.MunicipalityCompanyPerYearResultData;
+import nagoya.code4.resas.municipality.MunicipalityEmployeePerYearRequest;
+import nagoya.code4.resas.municipality.MunicipalityEmployeePerYearResult;
+import nagoya.code4.resas.municipality.MunicipalityLaborPerYearRequest;
+import nagoya.code4.resas.municipality.MunicipalityLaborPerYearResult;
+import nagoya.code4.resas.municipality.MunicipalityPerYearResultData;
+import nagoya.code4.resas.municipality.MunicipalityPlantYear;
+import nagoya.code4.resas.municipality.MunicipalityPlantYearRequest;
+import nagoya.code4.resas.municipality.MunicipalityPlantYearResult;
+import nagoya.code4.resas.municipality.MunicipalityValuePerYearRequest;
+import nagoya.code4.resas.municipality.MunicipalityValuePerYearResult;
 import nagoya.code4.resas.population.PopulationFutureMeshChartRequest;
 import nagoya.code4.resas.population.PopulationMeshChartRequest;
 import nagoya.code4.resas.population.PopulationMeshChartResult;
@@ -1088,7 +1097,7 @@ public class ResasHttpAccessTest {
 
 		MunicipalityCompanyPerYearResult resultData = om.readValue(result, MunicipalityCompanyPerYearResult.class);
 
-		MunicipalityCompanyPerYear a = resultData.getResult();
+		MunicipalityAbstractPerYearResult a = resultData.getResult();
 
 		System.out.println("prefCode" + a.getPrefCode());
 
@@ -1101,13 +1110,212 @@ public class ResasHttpAccessTest {
 
 		
 		
-		for (MunicipalityCompanyPerYearResultData data : a.getData()) {
+		for (MunicipalityPerYearResultData data : a.getData()) {
 
 			System.out.println("value" + data.getValue());
 			
 			System.out.println("year : " + data.getYear());
 
 
+
+		}
+	}
+	
+
+	@Test
+	public void testMunicipalityPlantPerYear() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("cityCode");
+		paramNames.add("simcCode");
+		paramNames.add("prefCode");
+		paramNames.add("sicCode");
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("11362");
+		paramValues.add("20");
+		paramValues.add("11");
+		paramValues.add("E");
+
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + MunicipalityPlantYearRequest.url, params.toString());
+
+		MunicipalityPlantYearResult resultData = om.readValue(result, MunicipalityPlantYearResult.class);
+
+		MunicipalityPlantYear a = resultData.getResult();
+
+		System.out.println("prefCode" + a.getPrefCode());
+
+		System.out.println("prefName" + a.getPrefName());
+		System.out.println("cityName" + a.getCityName());
+		System.out.println("sicName" + a.getSicName());
+		System.out.println("sicCode" + a.getSicCode());
+		System.out.println("simcName" + a.getSimcName());
+		System.out.println("simcCode" + a.getSimcCode());
+
+		
+		
+		for (MunicipalityPerYearResultData data : a.getData()) {
+
+			System.out.println("value" + data.getValue());
+			
+			System.out.println("year : " + data.getYear());
+
+		}
+	}
+	
+	@Test
+	public void testMunicipalityEmployeePerYear() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("cityCode");
+		paramNames.add("simcCode");
+		paramNames.add("prefCode");
+		paramNames.add("sicCode");
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("11362");
+		paramValues.add("20");
+		paramValues.add("11");
+		paramValues.add("E");
+
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + MunicipalityEmployeePerYearRequest.url, params.toString());
+
+		MunicipalityEmployeePerYearResult resultData = om.readValue(result, MunicipalityEmployeePerYearResult.class);
+
+		MunicipalityPlantYear a = resultData.getResult();
+
+		System.out.println("prefCode" + a.getPrefCode());
+
+		System.out.println("prefName" + a.getPrefName());
+		System.out.println("cityName" + a.getCityName());
+		System.out.println("sicName" + a.getSicName());
+		System.out.println("sicCode" + a.getSicCode());
+		System.out.println("simcName" + a.getSimcName());
+		System.out.println("simcCode" + a.getSimcCode());
+
+		
+		
+		for (MunicipalityPerYearResultData data : a.getData()) {
+
+			System.out.println("value" + data.getValue());
+			
+			System.out.println("year : " + data.getYear());
+
+		}
+	}
+	
+
+	@Test
+	public void testMunicipalityValuePerYear() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("cityCode");
+		paramNames.add("simcCode");
+		paramNames.add("prefCode");
+		paramNames.add("sicCode");
+		paramNames.add("year");
+		
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("13101");
+		paramValues.add("51");
+		paramValues.add("13");
+		paramValues.add("I");
+		paramValues.add("2012");
+
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + MunicipalityValuePerYearRequest.url, params.toString());
+
+
+		System.out.println(result);
+		MunicipalityValuePerYearResult resultData = om.readValue(result, MunicipalityValuePerYearResult.class);
+
+		MunicipalityPlantYear a = resultData.getResult();
+
+		System.out.println("prefCode" + a.getPrefCode());
+
+		System.out.println("prefName" + a.getPrefName());
+		System.out.println("cityName" + a.getCityName());
+		System.out.println("sicName" + a.getSicName());
+		System.out.println("sicCode" + a.getSicCode());
+		System.out.println("simcName" + a.getSimcName());
+		System.out.println("simcCode" + a.getSimcCode());
+
+		
+		
+		for (MunicipalityPerYearResultData data : a.getData()) {
+
+			System.out.println("value" + data.getValue());
+			
+			System.out.println("year : " + data.getYear());
+			
+
+			System.out.println("concealmentflg : " + data.getConcealmentFlg());
+
+		}
+	}
+	
+
+	@Test
+	public void testMunicipalityLaborPerYear() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("cityCode");
+		paramNames.add("simcCode");
+		paramNames.add("prefCode");
+		paramNames.add("sicCode");
+		paramNames.add("year");
+		
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("13101");
+		paramValues.add("51");
+		paramValues.add("13");
+		paramValues.add("I");
+		paramValues.add("2012");
+
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + MunicipalityLaborPerYearRequest.url, params.toString());
+
+
+		System.out.println(result);
+		MunicipalityLaborPerYearResult resultData = om.readValue(result, MunicipalityLaborPerYearResult.class);
+
+		MunicipalityPlantYear a = resultData.getResult();
+
+		System.out.println("prefCode" + a.getPrefCode());
+
+		System.out.println("prefName" + a.getPrefName());
+		System.out.println("cityName" + a.getCityName());
+		System.out.println("sicName" + a.getSicName());
+		System.out.println("sicCode" + a.getSicCode());
+		System.out.println("simcName" + a.getSimcName());
+		System.out.println("simcCode" + a.getSimcCode());
+
+		
+		
+		for (MunicipalityPerYearResultData data : a.getData()) {
+
+			System.out.println("value" + data.getValue());
+			
+			System.out.println("year : " + data.getYear());
+			
+
+			System.out.println("concealmentflg : " + data.getConcealmentFlg());
 
 		}
 	}
