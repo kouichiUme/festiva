@@ -4,4 +4,15 @@ public class MunicipalityLaborPerYearRequest  extends MunicipalityAbstractPerYea
 
 	
 	public static final String url = "/municipality/labor/perYear";
+	
+
+	private String year;
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
 }
