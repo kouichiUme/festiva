@@ -87,6 +87,11 @@ import nagoya.code4.resas.industry.IndustryPowerForIndustry;
 import nagoya.code4.resas.industry.IndustryPowerForIndustryRequest;
 import nagoya.code4.resas.industry.IndustryPowerForIndustryResult;
 import nagoya.code4.resas.industry.IndustryPowerForIndustryResultData;
+import nagoya.code4.resas.industry.statisticall.IndustryStatisticsAllForEntireStackedRequest;
+import nagoya.code4.resas.industry.statisticall.IndustryStatisticsAllForEntireStackedResult;
+import nagoya.code4.resas.industry.statisticall.IndustryStatisticsAllPrefectureAndIndustryCode;
+import nagoya.code4.resas.industry.statisticall.IndustryStatisticsForAllEntireStackInductryCode;
+import nagoya.code4.resas.industry.statisticall.IndustryStatisticsForAllEntireStackResultData;
 import nagoya.code4.resas.municipality.MunicipalityAbstractPerYearResult;
 import nagoya.code4.resas.municipality.MunicipalityCompanyPerYearRequest;
 import nagoya.code4.resas.municipality.MunicipalityCompanyPerYearResult;
@@ -1316,6 +1321,72 @@ public class ResasHttpAccessTest {
 			
 
 			System.out.println("concealmentflg : " + data.getConcealmentFlg());
+
+		}
+	}
+	
+
+	@Test
+	public void testIndustryStatisticsAll() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("cityCode");
+		paramNames.add("simcCode");
+		paramNames.add("prefCode");
+		paramNames.add("sicCode");
+		paramNames.add("matter");
+		
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("-");
+		paramValues.add("-");
+		paramValues.add("23");
+		paramValues.add("E");
+		paramValues.add("1");
+
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + IndustryStatisticsAllForEntireStackedRequest.url, params.toString());
+
+
+		System.out.println(result);
+		IndustryStatisticsAllForEntireStackedResult resultData = om.readValue(result, IndustryStatisticsAllForEntireStackedResult.class);
+
+		IndustryStatisticsAllPrefectureAndIndustryCode a = resultData.getResult();
+
+		System.out.println("prefCode" + a.getPrefCode());
+
+		System.out.println("prefName" + a.getPrefName());
+		System.out.println("cityName" + a.getCityName());
+		System.out.println("prefCode" + a.getPrefCode());
+		System.out.println("sicCode" + a.getSicCode());
+		System.out.println("cityCode" + a.getCityCode());
+		System.out.println("simcCode" + a.getSimcCode());
+		System.out.println("matter" + a.getMatter());
+
+		
+		
+		for (IndustryStatisticsForAllEntireStackInductryCode data : a.getChanges()) {
+
+			System.out.println("large code " + data.getLargeClassificationCode());
+			
+			System.out.println("large name: " + data.getLargeClassificationName());
+			
+
+			System.out.println("middle name : " + data.getMiddleClassificationName());
+
+			System.out.println("middle code : " + data.getMiddleClassificationCode());
+			
+			
+			for( IndustryStatisticsForAllEntireStackResultData d : data.getData()){
+				
+			
+				System.out.println("year : " + d.getYear());
+				System.out.println("value : " + d.getValue());
+				
+			}
 
 		}
 	}
