@@ -73,6 +73,7 @@ import nagoya.code4.resas.TradeInfoItemTypeNarrowResult;
 import nagoya.code4.resas.TradeInfoItemTypesBroadResult;
 import nagoya.code4.resas.TradeInfoItemTypesMiddleResult;
 import nagoya.code4.resas.TradeInfoItemTypesNarrowResult;
+import nagoya.code4.resas.industry.IndsutryStatisticsDistributionResultData;
 import nagoya.code4.resas.industry.IndustryManufactureEstablishResultData;
 import nagoya.code4.resas.industry.IndustryManufactureEstablishment;
 import nagoya.code4.resas.industry.IndustryManufactureEstablishmentLabel;
@@ -87,6 +88,10 @@ import nagoya.code4.resas.industry.IndustryPowerForIndustry;
 import nagoya.code4.resas.industry.IndustryPowerForIndustryRequest;
 import nagoya.code4.resas.industry.IndustryPowerForIndustryResult;
 import nagoya.code4.resas.industry.IndustryPowerForIndustryResultData;
+import nagoya.code4.resas.industry.IndustryStatisticsDistribution;
+import nagoya.code4.resas.industry.IndustryStatisticsDistributionForLineResult;
+import nagoya.code4.resas.industry.IndustryStatisticsDistributionLabel;
+import nagoya.code4.resas.industry.IndustrystatisticsDistributionForLineRequest;
 import nagoya.code4.resas.industry.statisticall.IndustryStatisticsAllForEntireStackedRequest;
 import nagoya.code4.resas.industry.statisticall.IndustryStatisticsAllForEntireStackedResult;
 import nagoya.code4.resas.industry.statisticall.IndustryStatisticsAllPrefectureAndIndustryCode;
@@ -1381,6 +1386,75 @@ public class ResasHttpAccessTest {
 			
 			
 			for( IndustryStatisticsForAllEntireStackResultData d : data.getData()){
+				
+			
+				System.out.println("year : " + d.getYear());
+				System.out.println("value : " + d.getValue());
+				
+			}
+
+		}
+	}
+	
+
+	@Test
+	public void testIndustryStatisticsDistribution() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("prefCode");
+		paramNames.add("cityCode");
+		paramNames.add("matter");
+		paramNames.add("unit");
+		paramNames.add("sicCode");
+		paramNames.add("simcCode");
+		paramNames.add("siscCode");
+		
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("23");
+		paramValues.add("-");
+		paramValues.add("6");
+		paramValues.add("3");
+		paramValues.add("E");
+		paramValues.add("30");
+		paramValues.add("-");
+
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + IndustrystatisticsDistributionForLineRequest.url, params.toString());
+
+
+		System.out.println(result);
+		IndustryStatisticsDistributionForLineResult resultData = om.readValue(result, IndustryStatisticsDistributionForLineResult.class);
+
+		IndustryStatisticsDistribution a = resultData.getResult();
+
+		System.out.println("prefCode" + a.getPrefCode());
+
+		System.out.println("prefName" + a.getPrefName());
+		System.out.println("cityName" + a.getCityName());
+		System.out.println("getSiscName" + a.getSiscName());
+		System.out.println("getSicName" + a.getSicName());
+		System.out.println("getSimcName" + a.getSimcName());
+		
+
+		System.out.println("getSicCode" + a.getSicCode());
+		System.out.println("getSiscCode" + a.getSiscCode());
+		System.out.println("getPrefCode" + a.getPrefCode());
+		System.out.println("getSimcCode" + a.getSimcCode());
+		System.out.println("cityCode" + a.getCityCode());
+		System.out.println("year" + a.getYear());
+
+		
+		
+		for (IndustryStatisticsDistributionLabel data : a.getChanges()) {
+
+			System.out.println("label : " + data.getLabel());
+						
+			
+			for( IndsutryStatisticsDistributionResultData d : data.getData()){
 				
 			
 				System.out.println("year : " + d.getYear());
