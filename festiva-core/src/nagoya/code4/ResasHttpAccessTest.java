@@ -112,6 +112,10 @@ import nagoya.code4.resas.municipality.MunicipalityPerYearResultData;
 import nagoya.code4.resas.municipality.MunicipalityPlantYear;
 import nagoya.code4.resas.municipality.MunicipalityPlantYearRequest;
 import nagoya.code4.resas.municipality.MunicipalityPlantYearResult;
+import nagoya.code4.resas.municipality.MunicipalitySalesPerYear;
+import nagoya.code4.resas.municipality.MunicipalitySalesPerYearRequest;
+import nagoya.code4.resas.municipality.MunicipalitySalesPerYearResult;
+import nagoya.code4.resas.municipality.MunicipalitySalesPerYearResultData;
 import nagoya.code4.resas.municipality.MunicipalityValuePerYearRequest;
 import nagoya.code4.resas.municipality.MunicipalityValuePerYearResult;
 import nagoya.code4.resas.population.PopulationFutureMeshChartRequest;
@@ -1477,6 +1481,57 @@ public class ResasHttpAccessTest {
 		System.out.println("simcCode" + a.getSicName());
 
 		for (MunicipalityManufacturePerYearResultData data : a.getData()) {
+
+			System.out.println("year : " + data.getYear());
+			System.out.println("value : " + data.getValue());
+
+		}
+	}
+	
+
+
+	@Test
+	public void testMuncipatySalesPerYear() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("cityCode");
+		paramNames.add("simcCode");
+		paramNames.add("prefCode");
+		paramNames.add("sicCode");
+		paramNames.add("dispType");
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("-");
+		paramValues.add("-");
+		paramValues.add("12");
+		paramValues.add("-");
+		paramValues.add("1");
+
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + MunicipalitySalesPerYearRequest.url,
+				params.toString());
+
+		System.out.println(result);
+		MunicipalitySalesPerYearResult resultData = om.readValue(result,
+				MunicipalitySalesPerYearResult.class);
+
+		MunicipalitySalesPerYear a = resultData.getResult();
+
+		System.out.println("prefCode" + a.getPrefCode());
+
+		System.out.println("prefName" + a.getPrefName());
+		System.out.println("cityName" + a.getCityName());
+		System.out.println("prefCode" + a.getPrefCode());
+		System.out.println("sicCode" + a.getSicCode());
+		System.out.println("cityCode" + a.getCityCode());
+		System.out.println("simcCode" + a.getSimcCode());
+		System.out.println("simcCode" + a.getSimcName());
+		System.out.println("simcCode" + a.getSicName());
+
+		for (MunicipalitySalesPerYearResultData data : a.getData()) {
 
 			System.out.println("year : " + data.getYear());
 			System.out.println("value : " + data.getValue());
