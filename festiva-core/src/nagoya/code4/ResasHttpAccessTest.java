@@ -73,6 +73,11 @@ import nagoya.code4.resas.TradeInfoItemTypeNarrowResult;
 import nagoya.code4.resas.TradeInfoItemTypesBroadResult;
 import nagoya.code4.resas.TradeInfoItemTypesMiddleResult;
 import nagoya.code4.resas.TradeInfoItemTypesNarrowResult;
+import nagoya.code4.resas.agriculture.AgricultureSalesShipValueRequest;
+import nagoya.code4.resas.agriculture.AgricultureSalesShipValueResult;
+import nagoya.code4.resas.agriculture.AgricultureSalesShipValueResultData;
+import nagoya.code4.resas.agriculture.AgricultureSalesShipValueResultYear;
+import nagoya.code4.resas.agriculture.AgricultureSalesShipValueYear;
 import nagoya.code4.resas.industry.IndsutryStatisticsDistributionResultData;
 import nagoya.code4.resas.industry.IndustryManufactureEstablishResultData;
 import nagoya.code4.resas.industry.IndustryManufactureEstablishment;
@@ -1539,4 +1544,54 @@ public class ResasHttpAccessTest {
 		}
 	}
 
+	@Test
+	public void testAgricultureSalesShippingValue() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("cityCode");
+		paramNames.add("oldCityCode");
+		paramNames.add("prefCode");
+		
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("11362");
+		paramValues.add("03");
+		paramValues.add("11");
+		
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + AgricultureSalesShipValueRequest.url,
+				params.toString());
+
+		System.out.println(result);
+		AgricultureSalesShipValueResult resultData = om.readValue(result,
+				AgricultureSalesShipValueResult.class);
+
+		AgricultureSalesShipValueYear a = resultData.getResult();
+
+		System.out.println("prefCode" + a.getPrefCode());
+
+		System.out.println("prefName" + a.getPrefName());
+		System.out.println("cityName" + a.getCityName());
+		System.out.println("prefCode" + a.getPrefCode());
+		System.out.println("cityCode" + a.getCityCode());
+		System.out.println("old cityCode" + a.getOldCityCode());
+		System.out.println("old cityName" + a.getOldCityName());
+
+		for (AgricultureSalesShipValueResultYear data : a.getYears()) {
+
+			System.out.println("year : " + data.getYear());
+			
+			
+			for(AgricultureSalesShipValueResultData d : data.getData()){
+				System.out.println("code : " + d.getCode());
+				System.out.println("label : " + d.getLabel());
+				System.out.println("sales : " + d.getSales());
+				
+			}
+
+		}
+	}
 }
