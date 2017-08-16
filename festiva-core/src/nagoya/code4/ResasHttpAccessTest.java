@@ -73,6 +73,10 @@ import nagoya.code4.resas.TradeInfoItemTypeNarrowResult;
 import nagoya.code4.resas.TradeInfoItemTypesBroadResult;
 import nagoya.code4.resas.TradeInfoItemTypesMiddleResult;
 import nagoya.code4.resas.TradeInfoItemTypesNarrowResult;
+import nagoya.code4.resas.agriculture.AgricultureLandStacked;
+import nagoya.code4.resas.agriculture.AgricultureLandStackedRequest;
+import nagoya.code4.resas.agriculture.AgricultureLandStackedResult;
+import nagoya.code4.resas.agriculture.AgricultureLandStackedResultData;
 import nagoya.code4.resas.agriculture.AgricultureSalesShipRatio;
 import nagoya.code4.resas.agriculture.AgricultureSalesShipRatioLabel;
 import nagoya.code4.resas.agriculture.AgricultureSalesShipRatioRequest;
@@ -1652,6 +1656,58 @@ public class ResasHttpAccessTest {
 				
 			}
 
+		}
+	}
+	
+
+	@Test
+	public void testAgricultureLandStacked() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("cityCode");
+		paramNames.add("oldCityCode");
+		paramNames.add("prefCode");
+		paramNames.add("matter");
+		paramNames.add("agriculturalLandType");
+		paramNames.add("dispType");
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("11362");
+		paramValues.add("03");
+		paramValues.add("11");
+		paramValues.add("3");
+		paramValues.add("3");
+		paramValues.add("1");
+		
+		
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + AgricultureLandStackedRequest.url,
+				params.toString());
+
+		System.out.println(result);
+		AgricultureLandStackedResult resultData = om.readValue(result,
+				AgricultureLandStackedResult.class);
+
+		AgricultureLandStacked a = resultData.getResult();
+
+		System.out.println("prefCode" + a.getPrefCode());
+
+		System.out.println("prefName" + a.getPrefName());
+		System.out.println("cityName" + a.getCityName());
+		System.out.println("prefCode" + a.getPrefCode());
+		System.out.println("cityCode" + a.getCityCode());
+		System.out.println("old cityCode" + a.getOldCityCode());
+		System.out.println("old cityName" + a.getOldCityName());
+
+		for (AgricultureLandStackedResultData data : a.getYears()) {
+
+			System.out.println("year : " + data.getYear());
+
+			System.out.println("selfOwn: " + data.getSelfOwnedValue());
+			
 		}
 	}
 }
