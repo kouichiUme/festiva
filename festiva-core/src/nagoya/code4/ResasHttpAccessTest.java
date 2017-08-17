@@ -73,6 +73,12 @@ import nagoya.code4.resas.TradeInfoItemTypeNarrowResult;
 import nagoya.code4.resas.TradeInfoItemTypesBroadResult;
 import nagoya.code4.resas.TradeInfoItemTypesMiddleResult;
 import nagoya.code4.resas.TradeInfoItemTypesNarrowResult;
+import nagoya.code4.resas.agriculture.AgricultureLandRatio;
+import nagoya.code4.resas.agriculture.AgricultureLandRatioLegend;
+import nagoya.code4.resas.agriculture.AgricultureLandRatioRequest;
+import nagoya.code4.resas.agriculture.AgricultureLandRatioResult;
+import nagoya.code4.resas.agriculture.AgricultureLandRatioResultData;
+import nagoya.code4.resas.agriculture.AgricultureLandRatioYear;
 import nagoya.code4.resas.agriculture.AgricultureLandStacked;
 import nagoya.code4.resas.agriculture.AgricultureLandStackedRequest;
 import nagoya.code4.resas.agriculture.AgricultureLandStackedResult;
@@ -1707,6 +1713,74 @@ public class ResasHttpAccessTest {
 			System.out.println("year : " + data.getYear());
 
 			System.out.println("selfOwn: " + data.getSelfOwnedValue());
+			
+		}
+	}
+	
+	
+
+
+	@Test
+	public void testAgricultureLandRatio() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("cityCode");
+		paramNames.add("oldCityCode");
+		paramNames.add("prefCode");
+		paramNames.add("matter");
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("11362");
+		paramValues.add("03");
+		paramValues.add("11");
+		paramValues.add("3");
+		
+		
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + AgricultureLandRatioRequest.url,
+				params.toString());
+
+		System.out.println(result);
+		AgricultureLandRatioResult  resultData = om.readValue(result,
+				AgricultureLandRatioResult.class);
+
+		AgricultureLandRatio a = resultData.getResult();
+
+		System.out.println("prefCode" + a.getPrefCode());
+
+		System.out.println("prefName" + a.getPrefName());
+		System.out.println("cityName" + a.getCityName());
+		System.out.println("prefCode" + a.getPrefCode());
+		System.out.println("cityCode" + a.getCityCode());
+		System.out.println("old cityCode" + a.getOldCityCode());
+		System.out.println("old cityName" + a.getOldCityName());
+
+		
+		for(AgricultureLandRatioLegend label : a.getLegend()){
+			
+			System.out.println("code : " + label.getCode());
+
+			System.out.println("legend : " + label.getLabel());
+						
+			
+		}
+		
+		for (AgricultureLandRatioYear data : a.getYears()) {
+
+
+			
+			System.out.println("label : " + data.getLabel());
+			System.out.println("year  : " + data.getYear());
+
+			for (AgricultureLandRatioResultData d : data.getData()) {
+				System.out.println("code : " + d.getCode());
+				System.out.println("label : " + d.getLabel());
+				System.out.println("value : " + d.getValue());
+
+			}
 			
 		}
 	}
