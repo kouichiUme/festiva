@@ -73,6 +73,10 @@ import nagoya.code4.resas.TradeInfoItemTypeNarrowResult;
 import nagoya.code4.resas.TradeInfoItemTypesBroadResult;
 import nagoya.code4.resas.TradeInfoItemTypesMiddleResult;
 import nagoya.code4.resas.TradeInfoItemTypesNarrowResult;
+import nagoya.code4.resas.agriculture.AgricultureLandForMobility;
+import nagoya.code4.resas.agriculture.AgricultureLandForMobilityRequest;
+import nagoya.code4.resas.agriculture.AgricultureLandForMobilityResult;
+import nagoya.code4.resas.agriculture.AgricultureLandForMobilityResultData;
 import nagoya.code4.resas.agriculture.AgricultureLandRatio;
 import nagoya.code4.resas.agriculture.AgricultureLandRatioLegend;
 import nagoya.code4.resas.agriculture.AgricultureLandRatioRequest;
@@ -1781,6 +1785,60 @@ public class ResasHttpAccessTest {
 				System.out.println("value : " + d.getValue());
 
 			}
+			
+		}
+	}
+	
+
+
+	@Test
+	public void testAgricultureLandMobility() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("cityCode");
+		paramNames.add("oldCityCode");
+		paramNames.add("prefCode");
+		paramNames.add("matter");
+		paramNames.add("agriculturalLandType");
+
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("11362");
+		paramValues.add("03");
+		paramValues.add("11");
+		paramValues.add("3");
+		paramValues.add("3");
+		
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + AgricultureLandForMobilityRequest.url,
+				params.toString());
+
+		System.out.println(result);
+		AgricultureLandForMobilityResult  resultData = om.readValue(result,
+				AgricultureLandForMobilityResult.class);
+
+		AgricultureLandForMobility a = resultData.getResult();
+
+		System.out.println("prefCode" + a.getPrefCode());
+
+		System.out.println("prefName" + a.getPrefName());
+		System.out.println("cityName" + a.getCityName());
+		System.out.println("prefCode" + a.getPrefCode());
+		System.out.println("cityCode" + a.getCityCode());
+		System.out.println("old cityCode" + a.getOldCityCode());
+		System.out.println("old cityName" + a.getOldCityName());
+		System.out.println("agriculturalLandType " + a.getAgriculturalLandType());
+
+		
+		
+		for(AgricultureLandForMobilityResultData data : a.getData()){
+			
+			System.out.println("code : " + data.getYear());
+
+			System.out.println("legend : " + data.getValue());
+						
 			
 		}
 	}
