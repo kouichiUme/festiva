@@ -73,6 +73,11 @@ import nagoya.code4.resas.TradeInfoItemTypeNarrowResult;
 import nagoya.code4.resas.TradeInfoItemTypesBroadResult;
 import nagoya.code4.resas.TradeInfoItemTypesMiddleResult;
 import nagoya.code4.resas.TradeInfoItemTypesNarrowResult;
+import nagoya.code4.resas.agriculture.AgricultureLandAbandoment;
+import nagoya.code4.resas.agriculture.AgricultureLandAbandomentRequest;
+import nagoya.code4.resas.agriculture.AgricultureLandAbandomentResult;
+import nagoya.code4.resas.agriculture.AgricultureLandAbandomentResultData;
+import nagoya.code4.resas.agriculture.AgricultureLandAbandonmentMatterEnum;
 import nagoya.code4.resas.agriculture.AgricultureLandForMobility;
 import nagoya.code4.resas.agriculture.AgricultureLandForMobilityRequest;
 import nagoya.code4.resas.agriculture.AgricultureLandForMobilityResult;
@@ -1834,6 +1839,55 @@ public class ResasHttpAccessTest {
 		
 		
 		for(AgricultureLandForMobilityResultData data : a.getData()){
+			
+			System.out.println("code : " + data.getYear());
+
+			System.out.println("legend : " + data.getValue());
+						
+			
+		}
+	}
+	
+
+	@Test
+	public void testAgricultureLandAbandonment() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("cityCode");
+		paramNames.add("oldCityCode");
+		paramNames.add("prefCode");
+		paramNames.add("matter");
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("11362");
+		paramValues.add("03");
+		paramValues.add("11");
+		paramValues.add(AgricultureLandAbandonmentMatterEnum.JapanAverage.getValue());
+		
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + AgricultureLandAbandomentRequest.url,
+				params.toString());
+
+		System.out.println(result);
+		AgricultureLandAbandomentResult  resultData = om.readValue(result,
+				AgricultureLandAbandomentResult.class);
+
+		AgricultureLandAbandoment a = resultData.getResult();
+
+		System.out.println("prefCode" + a.getPrefCode());
+
+		System.out.println("prefName" + a.getPrefName());
+		System.out.println("cityName" + a.getCityName());
+		System.out.println("prefCode" + a.getPrefCode());
+		System.out.println("cityCode" + a.getCityCode());
+		System.out.println("old cityCode" + a.getOldCityCode());
+		System.out.println("old cityName" + a.getOldCityName());
+
+		
+		
+		for(AgricultureLandAbandomentResultData data : a.getData()){
 			
 			System.out.println("code : " + data.getYear());
 
