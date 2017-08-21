@@ -73,6 +73,10 @@ import nagoya.code4.resas.TradeInfoItemTypeNarrowResult;
 import nagoya.code4.resas.TradeInfoItemTypesBroadResult;
 import nagoya.code4.resas.TradeInfoItemTypesMiddleResult;
 import nagoya.code4.resas.TradeInfoItemTypesNarrowResult;
+import nagoya.code4.resas.agriculture.AgricultureCropsWorkingDays;
+import nagoya.code4.resas.agriculture.AgricultureCropsWorkingDaysRequest;
+import nagoya.code4.resas.agriculture.AgricultureCropsWorkingDaysResult;
+import nagoya.code4.resas.agriculture.AgricultureCropsWorkingDaysResultData;
 import nagoya.code4.resas.agriculture.AgricultureLandAbandoment;
 import nagoya.code4.resas.agriculture.AgricultureLandAbandomentRequest;
 import nagoya.code4.resas.agriculture.AgricultureLandAbandomentResult;
@@ -1888,6 +1892,54 @@ public class ResasHttpAccessTest {
 		
 		
 		for(AgricultureLandAbandomentResultData data : a.getData()){
+			
+			System.out.println("code : " + data.getYear());
+
+			System.out.println("legend : " + data.getValue());
+						
+			
+		}
+	}
+	
+
+
+	@Test
+	public void testAgricultureCropWorkingDays() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("cityCode");
+		paramNames.add("oldCityCode");
+		paramNames.add("prefCode");
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("11362");
+		paramValues.add("03");
+		paramValues.add("11");
+		
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + AgricultureCropsWorkingDaysRequest.url,
+				params.toString());
+
+		System.out.println(result);
+		AgricultureCropsWorkingDaysResult resultData = om.readValue(result,
+				AgricultureCropsWorkingDaysResult.class);
+
+		AgricultureCropsWorkingDays a = resultData.getResult();
+
+		System.out.println("prefCode" + a.getPrefCode());
+
+		System.out.println("prefName" + a.getPrefName());
+		System.out.println("cityName" + a.getCityName());
+		System.out.println("prefCode" + a.getPrefCode());
+		System.out.println("cityCode" + a.getCityCode());
+		System.out.println("old cityCode" + a.getOldCityCode());
+		System.out.println("old cityName" + a.getOldCityName());
+
+		
+		
+		for(AgricultureCropsWorkingDaysResultData data : a.getYears()){
 			
 			System.out.println("code : " + data.getYear());
 
