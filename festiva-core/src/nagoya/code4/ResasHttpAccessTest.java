@@ -73,6 +73,14 @@ import nagoya.code4.resas.TradeInfoItemTypeNarrowResult;
 import nagoya.code4.resas.TradeInfoItemTypesBroadResult;
 import nagoya.code4.resas.TradeInfoItemTypesMiddleResult;
 import nagoya.code4.resas.TradeInfoItemTypesNarrowResult;
+import nagoya.code4.resas.agriculture.AgricultureCropsFarmersAgeLabelAndData;
+import nagoya.code4.resas.agriculture.AgricultureCropsFarmersAgeStructure;
+import nagoya.code4.resas.agriculture.AgricultureCropsFarmersAgeStructureLegend;
+import nagoya.code4.resas.agriculture.AgricultureCropsFarmersAgeStructureRequest;
+import nagoya.code4.resas.agriculture.AgricultureCropsFarmersAgeStructureResult;
+import nagoya.code4.resas.agriculture.AgricultureCropsFarmersAgeStructureResultData;
+import nagoya.code4.resas.agriculture.AgricultureCropsFarmersTypeEnum;
+import nagoya.code4.resas.agriculture.AgricultureCropsGenderTypeEnum;
 import nagoya.code4.resas.agriculture.AgricultureCropsSales;
 import nagoya.code4.resas.agriculture.AgricultureCropsSalesRequest;
 import nagoya.code4.resas.agriculture.AgricultureCropsSalesResult;
@@ -85,7 +93,6 @@ import nagoya.code4.resas.agriculture.AgricultureLandAbandoment;
 import nagoya.code4.resas.agriculture.AgricultureLandAbandomentRequest;
 import nagoya.code4.resas.agriculture.AgricultureLandAbandomentResult;
 import nagoya.code4.resas.agriculture.AgricultureLandAbandomentResultData;
-import nagoya.code4.resas.agriculture.AgricultureLandAbandonmentMatterEnum;
 import nagoya.code4.resas.agriculture.AgricultureLandForMobility;
 import nagoya.code4.resas.agriculture.AgricultureLandForMobilityRequest;
 import nagoya.code4.resas.agriculture.AgricultureLandForMobilityResult;
@@ -100,6 +107,7 @@ import nagoya.code4.resas.agriculture.AgricultureLandStacked;
 import nagoya.code4.resas.agriculture.AgricultureLandStackedRequest;
 import nagoya.code4.resas.agriculture.AgricultureLandStackedResult;
 import nagoya.code4.resas.agriculture.AgricultureLandStackedResultData;
+import nagoya.code4.resas.agriculture.AgricultureMatterEnum;
 import nagoya.code4.resas.agriculture.AgricultureSalesShipRatio;
 import nagoya.code4.resas.agriculture.AgricultureSalesShipRatioLabel;
 import nagoya.code4.resas.agriculture.AgricultureSalesShipRatioRequest;
@@ -1871,7 +1879,7 @@ public class ResasHttpAccessTest {
 		paramValues.add("11362");
 		paramValues.add("03");
 		paramValues.add("11");
-		paramValues.add(AgricultureLandAbandonmentMatterEnum.JapanAverage.getValue());
+		paramValues.add(AgricultureMatterEnum.JapanAverage.getValue());
 		
 		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
 
@@ -1996,6 +2004,82 @@ public class ResasHttpAccessTest {
 
 			System.out.println("legend : " + data.getValue());
 						
+			
+		}
+	}
+	
+
+	@Test
+	public void testAgricultureCropAgeStructure() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("cityCode");
+		paramNames.add("oldCityCode");
+		paramNames.add("prefCode");
+		paramNames.add("farmersType");
+		paramNames.add("genderType");
+		paramNames.add("matter");
+		
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("11362");
+		paramValues.add("03");
+		paramValues.add("11");
+		paramValues.add(""+ AgricultureCropsFarmersTypeEnum.Farmer.getValue());
+		paramValues.add("" +AgricultureCropsGenderTypeEnum.Total.getValue());
+		paramValues.add(""+AgricultureMatterEnum.JapanAverage.getValue());
+		
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + AgricultureCropsFarmersAgeStructureRequest.url,
+				params.toString());
+
+		System.out.println(result);
+		AgricultureCropsFarmersAgeStructureResult resultData = om.readValue(result,
+				AgricultureCropsFarmersAgeStructureResult.class);
+
+		AgricultureCropsFarmersAgeStructure a = resultData.getResult();
+
+		System.out.println("prefCode" + a.getPrefCode());
+
+		System.out.println("prefName" + a.getPrefName());
+		System.out.println("cityName" + a.getCityName());
+		System.out.println("prefCode" + a.getPrefCode());
+		System.out.println("cityCode" + a.getCityCode());
+		System.out.println("old cityCode" + a.getOldCityCode());
+		System.out.println("old cityName" + a.getOldCityName());
+
+		System.out.println("farmersType " + a.getFarmersType());
+		System.out.println("genderType " + a.getGenderType());
+		System.out.println("matter " + a.getMatter());
+
+		
+		
+		for(AgricultureCropsFarmersAgeLabelAndData data : a.getYears()){
+			
+			System.out.println("code : " + data.getYear());
+
+			System.out.println("unit : " + data.getUnit());
+						
+			System.out.println("label : " + data.getLabel());
+			
+			
+
+			for(AgricultureCropsFarmersAgeStructureLegend l: data.getLegend()){
+				System.out.println("label : " + l.getLabel());
+				System.out.println("code : " + l.getCode());
+					
+			}
+			
+			
+			for(AgricultureCropsFarmersAgeStructureResultData  d: data.getData()){
+				System.out.println("label : " + d.getLabel());
+				System.out.println("code : " + d.getCode());
+				System.out.println("value : " + d.getValue());
+					
+			}
+			
 			
 		}
 	}

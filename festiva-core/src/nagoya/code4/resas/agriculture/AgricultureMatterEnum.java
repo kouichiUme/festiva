@@ -1,13 +1,13 @@
 package nagoya.code4.resas.agriculture;
 
-public enum AgricultureLandAbandonmentMatterEnum {
+public enum AgricultureMatterEnum {
 	DesignatedLocation("1"),
 	inDesignedPrefecture("2"),
 	JapanAverage("3");
 	
 	private String  value ;
 	
-	AgricultureLandAbandonmentMatterEnum(String v){
+	AgricultureMatterEnum(String v){
 		this.value = v;
 	}
 	
