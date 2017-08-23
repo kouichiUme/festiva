@@ -79,6 +79,10 @@ import nagoya.code4.resas.agriculture.AgricultureCropsFarmersAgeStructureLegend;
 import nagoya.code4.resas.agriculture.AgricultureCropsFarmersAgeStructureRequest;
 import nagoya.code4.resas.agriculture.AgricultureCropsFarmersAgeStructureResult;
 import nagoya.code4.resas.agriculture.AgricultureCropsFarmersAgeStructureResultData;
+import nagoya.code4.resas.agriculture.AgricultureCropsFarmersAvarageAgeResultData;
+import nagoya.code4.resas.agriculture.AgricultureCropsFarmersAverageAge;
+import nagoya.code4.resas.agriculture.AgricultureCropsFarmersAverageAgeRequest;
+import nagoya.code4.resas.agriculture.AgricultureCropsFarmersAverageAgeResult;
 import nagoya.code4.resas.agriculture.AgricultureCropsFarmersTypeEnum;
 import nagoya.code4.resas.agriculture.AgricultureCropsGenderTypeEnum;
 import nagoya.code4.resas.agriculture.AgricultureCropsSales;
@@ -2079,6 +2083,66 @@ public class ResasHttpAccessTest {
 				System.out.println("value : " + d.getValue());
 					
 			}
+			
+			
+		}
+	}
+	
+
+
+	@Test
+	public void testAgricultureCropAverageAge() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("cityCode");
+		paramNames.add("oldCityCode");
+		paramNames.add("prefCode");
+		paramNames.add("farmersType");
+		paramNames.add("genderType");
+		paramNames.add("matter");
+		
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("11362");
+		paramValues.add("03");
+		paramValues.add("11");
+		paramValues.add(""+ AgricultureCropsFarmersTypeEnum.Farmer.getValue());
+		paramValues.add("" +AgricultureCropsGenderTypeEnum.Total.getValue());
+		paramValues.add(""+AgricultureMatterEnum.JapanAverage.getValue());
+		
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + AgricultureCropsFarmersAverageAgeRequest.url,
+				params.toString());
+
+		System.out.println(result);
+		AgricultureCropsFarmersAverageAgeResult resultData = om.readValue(result,
+				AgricultureCropsFarmersAverageAgeResult.class);
+
+		AgricultureCropsFarmersAverageAge a = resultData.getResult();
+
+		System.out.println("prefCode" + a.getPrefCode());
+
+		System.out.println("prefName" + a.getPrefName());
+		System.out.println("cityName" + a.getCityName());
+		System.out.println("prefCode" + a.getPrefCode());
+		System.out.println("cityCode" + a.getCityCode());
+		System.out.println("old cityCode" + a.getOldCityCode());
+		System.out.println("old cityName" + a.getOldCityName());
+
+		System.out.println("farmersType " + a.getFarmersType());
+		System.out.println("genderType " + a.getGenderType());
+		System.out.println("matter " + a.getMatter());
+
+		
+		
+		for(AgricultureCropsFarmersAvarageAgeResultData data : a.getYears()){
+			
+			System.out.println("year : " + data.getYear());
+
+			System.out.println("value : " + data.getValue());
+						
 			
 			
 		}
