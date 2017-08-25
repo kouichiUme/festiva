@@ -85,6 +85,11 @@ import nagoya.code4.resas.agriculture.AgricultureCropsFarmersAverageAgeRequest;
 import nagoya.code4.resas.agriculture.AgricultureCropsFarmersAverageAgeResult;
 import nagoya.code4.resas.agriculture.AgricultureCropsFarmersTypeEnum;
 import nagoya.code4.resas.agriculture.AgricultureCropsGenderTypeEnum;
+import nagoya.code4.resas.agriculture.AgricultureCropsRelatedBusiness;
+import nagoya.code4.resas.agriculture.AgricultureCropsRelatedBusinessRequest;
+import nagoya.code4.resas.agriculture.AgricultureCropsRelatedBusinessResult;
+import nagoya.code4.resas.agriculture.AgricultureCropsRelatedBusinessResultData;
+import nagoya.code4.resas.agriculture.AgricultureCropsRelatedBusinessYear;
 import nagoya.code4.resas.agriculture.AgricultureCropsSales;
 import nagoya.code4.resas.agriculture.AgricultureCropsSalesRequest;
 import nagoya.code4.resas.agriculture.AgricultureCropsSalesResult;
@@ -2144,6 +2149,60 @@ public class ResasHttpAccessTest {
 			System.out.println("value : " + data.getValue());
 						
 			
+			
+		}
+	}
+	
+
+
+	@Test
+	public void testAgricultureCropRelatedBusiness() throws ParseException, IOException {
+		ObjectMapper om = new ObjectMapper();
+
+		List<String> paramNames = new ArrayList<String>();
+		paramNames.add("cityCode");
+		paramNames.add("oldCityCode");
+		paramNames.add("prefCode");
+		
+		List<String> paramValues = new ArrayList<String>();
+
+		paramValues.add("11362");
+		paramValues.add("03");
+		paramValues.add("11");
+		
+		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
+
+		String result = ResasHttpAccess.sendString("api/v1" + AgricultureCropsRelatedBusinessRequest.url,
+				params.toString());
+
+		System.out.println(result);
+		AgricultureCropsRelatedBusinessResult resultData = om.readValue(result,
+				AgricultureCropsRelatedBusinessResult.class);
+
+		AgricultureCropsRelatedBusiness a = resultData.getResult();
+
+		System.out.println("prefCode" + a.getPrefCode());
+
+		System.out.println("prefName" + a.getPrefName());
+		System.out.println("cityName" + a.getCityName());
+		System.out.println("prefCode" + a.getPrefCode());
+		System.out.println("cityCode" + a.getCityCode());
+		System.out.println("old cityCode" + a.getOldCityCode());
+		System.out.println("old cityName" + a.getOldCityName());
+
+
+		
+		
+		for(AgricultureCropsRelatedBusinessYear data : a.getYears()){
+			
+			System.out.println("year : " + data.getYear());
+
+			for(AgricultureCropsRelatedBusinessResultData d : data.getData()){
+				
+				System.out.println("code " + d.getCode());
+				System.out.println("label" + d.getLabel());
+				System.out.println("value " + d.getValue());
+			}
 			
 		}
 	}
