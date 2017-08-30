@@ -2,7 +2,7 @@ package nagoya.code4.resas.forestry;
 
 import nagoya.code4.resas.AbstractResultList;
 
-public class ForerstryIncomeAllPortfolio extends AbstractResultList<ForestryIncomeAllPortfolioResultData>{
+public class ForestryIncomeAllPortfolio extends AbstractResultList<ForestryIncomeAllPortfolioResultData>{
 	
 	private String year;
 	
