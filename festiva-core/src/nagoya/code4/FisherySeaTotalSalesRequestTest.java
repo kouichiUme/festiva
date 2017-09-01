@@ -14,7 +14,6 @@ import nagoya.code4.resas.fishery.FisherySeaTotalSales;
 import nagoya.code4.resas.fishery.FisherySeaTotalSalesRequest;
 import nagoya.code4.resas.fishery.FisherySeaTotalSalesResult;
 import nagoya.code4.resas.fishery.FisherySeaTotalSalesResultData;
-import nagoya.code4.resas.forestry.ForestryIncomeAllForStackedResultData;
 
 public class FisherySeaTotalSalesRequestTest {
 
