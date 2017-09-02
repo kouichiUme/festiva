@@ -10,12 +10,13 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import nagoya.code4.resas.ResasUtil;
-import nagoya.code4.resas.fishery.AbstractFisherySeaSales;
-import nagoya.code4.resas.fishery.FisherySeaTotalSales;
-import nagoya.code4.resas.fishery.FisherySeaTotalSalesRequest;
-import nagoya.code4.resas.fishery.FisherySeaTotalSalesResult;
+import nagoya.code4.resas.agriculture.AgricultureMatterEnum;
+import nagoya.code4.resas.fishery.FisherySeaManagementUnitSales;
+import nagoya.code4.resas.fishery.FisherySeaManagementUnitSalesRequest;
+import nagoya.code4.resas.fishery.FisherySeaManagementUnitSalesResult;
+import nagoya.code4.resas.fishery.FisherySeaManagementUnitSalesResultData;
 
-public class FisherySeaTotalSalesRequestTest {
+public class FisherySeaManagementUnitSalesRequestTest {
 
 	@Test
 	public void test() throws ParseException, IOException {
@@ -26,19 +27,22 @@ public class FisherySeaTotalSalesRequestTest {
 		paramNames.add("cityCode");
 		paramNames.add("prefCode");
 
+		paramNames.add("matter");
+
 		List<String> paramValues = new ArrayList<String>();
 
 		paramValues.add("-");
 		paramValues.add("13");
+		paramValues.add(""+AgricultureMatterEnum.JapanAverage.getValue());
 
 		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
 
-		String result = ResasHttpAccess.sendString("api/v1" + FisherySeaTotalSalesRequest.url, params.toString());
+		String result = ResasHttpAccess.sendString("api/v1" + FisherySeaManagementUnitSalesRequest.url, params.toString());
 
 		System.out.println(result);
-		FisherySeaTotalSalesResult resultData = om.readValue(result, FisherySeaTotalSalesResult.class);
+		FisherySeaManagementUnitSalesResult resultData = om.readValue(result, FisherySeaManagementUnitSalesResult.class);
 
-		FisherySeaTotalSales a = resultData.getResult();
+		FisherySeaManagementUnitSales a = resultData.getResult();
 
 		System.out.println("prefCode" + a.getPrefCode());
 
@@ -46,8 +50,11 @@ public class FisherySeaTotalSalesRequestTest {
 		System.out.println("cityName" + a.getCityName());
 		System.out.println("prefCode" + a.getPrefCode());
 		System.out.println("cityCode" + a.getCityCode());
+		
+		System.out.println("matter " + a.getMatter());
+		
 
-		for (AbstractFisherySeaSales y : a.getYears()) {
+		for (FisherySeaManagementUnitSalesResultData y : a.getYears()) {
 
 			System.out.println("year " + y.getYear());
 			System.out.println("value : " + y.getValue());
