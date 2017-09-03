@@ -10,10 +10,11 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import nagoya.code4.resas.ResasUtil;
-import nagoya.code4.resas.fishery.AbstractFisherySeaSales;
+import nagoya.code4.resas.fishery.FisherySeaSalesYear;
 import nagoya.code4.resas.fishery.FisherySeaTotalSales;
 import nagoya.code4.resas.fishery.FisherySeaTotalSalesRequest;
 import nagoya.code4.resas.fishery.FisherySeaTotalSalesResult;
+import nagoya.code4.resas.fishery.FisherySeaTotalSalesResultData;
 
 public class FisherySeaTotalSalesRequestTest {
 
@@ -47,10 +48,14 @@ public class FisherySeaTotalSalesRequestTest {
 		System.out.println("prefCode" + a.getPrefCode());
 		System.out.println("cityCode" + a.getCityCode());
 
-		for (AbstractFisherySeaSales y : a.getYears()) {
+		for (FisherySeaTotalSalesResultData y : a.getYears()) {
 
 			System.out.println("year " + y.getYear());
 			System.out.println("value : " + y.getValue());
+			
+			
+			
+			
 
 		}
 
