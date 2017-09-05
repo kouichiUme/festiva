@@ -20,7 +20,7 @@ import nagoya.code4.resas.fishery.FisherySeaManagementUnitSalesRequest;
 import nagoya.code4.resas.fishery.FisherySeaManagementUnitSalesResult;
 import nagoya.code4.resas.fishery.FisherySeaManagementUnitSalesResultData;
 
-public class FisherySeaManagementUnitSalesRequestTest {
+public class FisherySeaAquacultureManagementUnitSalesRequestTest {
 
 	@Test
 	public void test() throws ParseException, IOException {
@@ -41,12 +41,12 @@ public class FisherySeaManagementUnitSalesRequestTest {
 
 		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
 
-		String result = ResasHttpAccess.sendString("api/v1" + FisherySeaManagementUnitSalesRequest.url, params.toString());
+		String result = ResasHttpAccess.sendString("api/v1" + FisherySeaAquacultureManagementUnitSalesRequest.url, params.toString());
 
 		System.out.println(result);
-		FisherySeaManagementUnitSalesResult resultData = om.readValue(result, FisherySeaManagementUnitSalesResult.class);
+		FisherySeaAquacultureManagementUnitSalesResult resultData = om.readValue(result, FisherySeaAquacultureManagementUnitSalesResult.class);
 
-		FisherySeaManagementUnitSales a = resultData.getResult();
+		FisherySeaAquacultureManagementUnitSales a = resultData.getResult();
 
 		System.out.println("prefCode" + a.getPrefCode());
 
@@ -58,7 +58,7 @@ public class FisherySeaManagementUnitSalesRequestTest {
 		System.out.println("matter " + a.getMatter());
 		
 
-		for (FisherySeaManagementUnitSalesResultData y : a.getYears()) {
+		for (FisherySeaAquacultureManagementUnitSalesResultData y : a.getYears()) {
 
 			System.out.println("year " + y.getYear());
 			System.out.println("value : " + y.getValue());
