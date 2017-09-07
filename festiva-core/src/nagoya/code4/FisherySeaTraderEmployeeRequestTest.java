@@ -18,8 +18,12 @@ import nagoya.code4.resas.fishery.FisherySeaSalesRequest;
 import nagoya.code4.resas.fishery.FisherySeaSalesResult;
 import nagoya.code4.resas.fishery.FisherySeaSalesResultData;
 import nagoya.code4.resas.fishery.FisherySeaSalesYear;
+import nagoya.code4.resas.fishery.FisherySeaTraderForEmployee;
+import nagoya.code4.resas.fishery.FisherySeaTraderForEmployeeRequest;
+import nagoya.code4.resas.fishery.FisherySeaTraderForEmployeeResult;
+import nagoya.code4.resas.fishery.FisherySeaTraderForEmployeeResultData;
 
-public class FisherySeaSalesRequestTest {
+public class FisherySeaTraderEmployeeRequestTest {
 
 	@Test
 	public void test() throws JsonParseException, JsonMappingException, IOException {
@@ -33,18 +37,18 @@ public class FisherySeaSalesRequestTest {
 		paramNames.add("matter");
 		List<String> paramValues = new ArrayList<String>();
 
-		paramValues.add("11362");
-		paramValues.add("11");
+		paramValues.add("-");
+		paramValues.add("15");
 		paramValues.add(""+AgricultureMatterEnum.JapanAverage.getValue());
 
 		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
 
-		String result = ResasHttpAccess.sendString("api/v1" + FisherySeaSalesRequest.url, params.toString());
+		String result = ResasHttpAccess.sendString("api/v1" + FisherySeaTraderForEmployeeRequest.url, params.toString());
 
 		System.out.println(result);
-		FisherySeaSalesResult resultData = om.readValue(result, FisherySeaSalesResult.class);
+		FisherySeaTraderForEmployeeResult resultData = om.readValue(result, FisherySeaTraderForEmployeeResult.class);
 
-		FisherySeaSales a = resultData.getResult();
+		FisherySeaTraderForEmployee a = resultData.getResult();
 
 		System.out.println("prefCode" + a.getPrefCode());
 
@@ -54,31 +58,15 @@ public class FisherySeaSalesRequestTest {
 		System.out.println("cityCode" + a.getCityCode());
 		System.out.println("matter " + a.getMatter());
 
-		for (FisherySeaSalesYear y : a.getYears()) {
+		for (FisherySeaTraderForEmployeeResultData y : a.getYears()) {
+
 
 			System.out.println("year " + y.getYear());
-			System.out.println("label : " + y.getLabel());
+			
+			System.out.println("value " + y.getValue());
 			
 			
-			for( FisherySeaSalesLegend l : y.getLegend()){
-
-				System.out.println("code " + l.getCode());
-				System.out.println("label : " + l.getLabel());
-					
-			}
-			
-			for(FisherySeaSalesResultData data : y.getData()){
-				
-				System.out.println("code " + data.getCode());
-				System.out.println("value : " + data.getValue());
-				
-				
-			}
-		
-
 		}
 
 	}
-
-
 }
