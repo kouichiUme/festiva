@@ -31,7 +31,7 @@ public class IndustryExpenseForLineRequestTest {
 		List<String> paramValues = new ArrayList<String>();
 
 		paramValues.add("1");
-		paramValues.add("1");
+		paramValues.add("2");
 		paramValues.add("1");
 		paramValues.add("23");
 
