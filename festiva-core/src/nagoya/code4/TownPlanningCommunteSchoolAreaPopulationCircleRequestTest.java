@@ -11,11 +11,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import nagoya.code4.resas.ResasUtil;
-import nagoya.code4.resas.partner.TownPlanningCommuteCircleNightData;
-import nagoya.code4.resas.partner.TownPlanningCommuteCircleNoonData;
-import nagoya.code4.resas.partner.TownPlanningCommuteSchoolAreaPopulationCircle;
-import nagoya.code4.resas.partner.TownPlanningCommuteSchoolAreaPopulationCircleRequest;
-import nagoya.code4.resas.partner.TownPlanningCommuteSchoolAreaPopulationCircleResult;
+import nagoya.code4.resas.townplanning.TownPlanningCommuteCircleNightData;
+import nagoya.code4.resas.townplanning.TownPlanningCommuteCircleNoonData;
+import nagoya.code4.resas.townplanning.TownPlanningCommuteSchoolAreaPopulationCircle;
+import nagoya.code4.resas.townplanning.TownPlanningCommuteSchoolAreaPopulationCircleRequest;
+import nagoya.code4.resas.townplanning.TownPlanningCommuteSchoolAreaPopulationCircleResult;
 
 public class TownPlanningCommunteSchoolAreaPopulationCircleRequestTest {
 

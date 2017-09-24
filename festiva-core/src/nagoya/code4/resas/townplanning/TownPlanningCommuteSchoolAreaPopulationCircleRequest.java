@@ -1,4 +1,4 @@
-package nagoya.code4.resas.partner;
+package nagoya.code4.resas.townplanning;
 
 public class TownPlanningCommuteSchoolAreaPopulationCircleRequest {
 	
