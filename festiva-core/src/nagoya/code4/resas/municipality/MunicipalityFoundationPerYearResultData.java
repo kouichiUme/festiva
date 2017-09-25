@@ -1,6 +1,6 @@
 package nagoya.code4.resas.municipality;
 
-public class MinicipalityFoundationPerYearResultData {
+public class MunicipalityFoundationPerYearResultData {
 	
 	private String year;
 	

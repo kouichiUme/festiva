@@ -1,6 +1,6 @@
 package nagoya.code4.resas.municipality;
 
-public class MinicipalityFoundationPerYearRequest {
+public class MunicipalityFoundationPerYearRequest {
 	
 	public static String url = "/municipality/foundation/perYear";
 	

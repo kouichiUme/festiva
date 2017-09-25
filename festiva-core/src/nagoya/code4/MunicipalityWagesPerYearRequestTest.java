@@ -10,61 +10,59 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import nagoya.code4.resas.ResasUtil;
-import nagoya.code4.resas.municipality.MunicipalityFoundationPerYear;
-import nagoya.code4.resas.municipality.MunicipalityFoundationPerYearRequest;
-import nagoya.code4.resas.municipality.MunicipalityFoundationPerYearResult;
-import nagoya.code4.resas.municipality.MunicipalityFoundationPerYearResultData;
+import nagoya.code4.resas.municipality.MunicipalityWagesPerYear;
+import nagoya.code4.resas.municipality.MunicipalityWagesPerYearRequest;
+import nagoya.code4.resas.municipality.MunicipalityWagesPerYearResult;
+import nagoya.code4.resas.municipality.MunicipalityWagesPerYearResultData;
 
-public class MinicipalityFoundationPerYearRequestTest {
+public class MunicipalityWagesPerYearRequestTest {
 
 	@Test
 	public void test() throws ParseException, IOException {
-		
+
 		ObjectMapper om = new ObjectMapper();
 
 		List<String> paramNames = new ArrayList<String>();
-		paramNames.add("cityCode");
+		paramNames.add("wagesAge");
 		paramNames.add("prefCode");
-		
-		List<String> paramValues = new ArrayList<String>();
+		paramNames.add("simcCode");
+		paramNames.add("sicCode");
 
-		paramValues.add("11362");
-		paramValues.add("11");
-		
-		
+		List<String> paramValues = new ArrayList<String>();
+		paramValues.add("6");
+		paramValues.add("23");
+		paramValues.add("-");
+		paramValues.add("-");
+
 		StringBuffer params = ResasUtil.addParameters(paramNames, paramValues);
 
-		String result = ResasHttpAccess.sendString("api/v1" + MunicipalityFoundationPerYearRequest.url,
-				params.toString());
+		String result = ResasHttpAccess.sendString("api/v1" + MunicipalityWagesPerYearRequest.url, params.toString());
 
 		System.out.println(result);
-		MunicipalityFoundationPerYearResult resultData = om.readValue(result,
-				MunicipalityFoundationPerYearResult.class);
+		MunicipalityWagesPerYearResult resultData = om.readValue(result, MunicipalityWagesPerYearResult.class);
 
-		MunicipalityFoundationPerYear a = resultData.getResult();
-		
+		MunicipalityWagesPerYear a = resultData.getResult();
+
 		System.out.println("prefCode" + a.getPrefCode());
 
 		System.out.println("prefName" + a.getPrefName());
-		System.out.println("cityName" + a.getCityName());
 		System.out.println("prefCode" + a.getPrefCode());
-		System.out.println("cityCode" + a.getCityCode());
 
 		System.out.println("sicCode" + a.getSicCode());
 
 		System.out.println("sicName" + a.getSicName());
 		System.out.println("simcCode" + a.getSimcCode());
 		System.out.println("simcName" + a.getSimcName());
-		
-		for(MunicipalityFoundationPerYearResultData data : a.getData()){
-			
+
+		for (MunicipalityWagesPerYearResultData data : a.getData()) {
+
 			System.out.println("year : " + data.getYear());
-			
-			
+
 			System.out.println("value: " + data.getValue());
-			
+
+
 		}
+
 	}
-		
 
 }
