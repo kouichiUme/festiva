@@ -1,11 +1,14 @@
 package nagoya.code4.hojin;
 
+import java.io.IOException;
+
+import org.apache.http.ParseException;
 import org.junit.Test;
 
 public class HojinInfoRequestTest {
 
 	@Test
-	public void test() {
+	public void test() throws ParseException, IOException {
 		
 		
 		
@@ -16,6 +19,11 @@ public class HojinInfoRequestTest {
 		
 		StringBuffer sb = new StringBuffer();
 		sb.append(HojinInfoRequest.url+'?'+requestparam);
+		
+		
+		String text = HojinInfoHttpAccess.sendString("", requestparam);
+		
+		System.out.println(text);
 	}
 
 }
